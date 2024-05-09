@@ -31,7 +31,7 @@ export const Login = async (req: Request, res: Response) => {
         return HTTPResponse.OK(res, {
             status: StatusCodes.OK,
             message: "USER_LOGIN",
-            token: token,
+            data: token,
         });
 
     } catch (e) {
