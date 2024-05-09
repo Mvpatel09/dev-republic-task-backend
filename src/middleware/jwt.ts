@@ -31,6 +31,6 @@ export const verifyUserToken = async (
         req.user = verified;
         next();
     } catch (error) {
-        return handleErrorResponse(req as any, res, error as Error);
+        return handleErrorResponse(req, res, error as Error);
     }
 };

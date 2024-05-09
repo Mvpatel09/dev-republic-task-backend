@@ -1,4 +1,5 @@
-import { Response } from 'express';
+import { Request, Response } from 'express';
+import bcrypt from 'bcrypt';
 
 const StatusCodes = {
     OK: 200,
@@ -53,5 +54,11 @@ function handleErrorResponse(req: Request, res: Response, error: Error) {
         data: error.message,
     });
 }
+
+export const passwordEncypt = async (password: string): Promise<string> => {
+    const salt = await bcrypt.genSalt(10);
+    const passwordHash = bcrypt.hash(password, salt);
+    return passwordHash;
+};
 
 export { HTTPResponse, StatusCodes, handleErrorResponse };
