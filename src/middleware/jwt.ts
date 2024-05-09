@@ -2,12 +2,8 @@ import { NextFunction, Request, Response } from 'express';
 import jwt, { JwtPayload } from 'jsonwebtoken';
 import { HTTPResponse, StatusCodes, handleErrorResponse } from '../utils/httpResponse';
 
-interface AuthenticatedRequest extends Request {
-    user: JwtPayload & { _id: string };
-}
-
 export const verifyUserToken = async (
-    req: AuthenticatedRequest,
+    req: any,
     res: Response,
     next: NextFunction
 ): Promise<void | Response> => {
@@ -17,10 +13,10 @@ export const verifyUserToken = async (
     }
     try {
         const verified =
-            (jwt.verify(
+            jwt.verify(
                 token,
                 process.env.JWT_SECRET_KEY as jwt.Secret
-            ) as AuthenticatedRequest['user']) || undefined;
+            );
         if (!verified) {
             return HTTPResponse.UNAUTHORIZED(res, {
                 status: StatusCodes.UNAUTHORIZED,
