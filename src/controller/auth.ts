@@ -9,6 +9,13 @@ export const Login = async (req: Request, res: Response) => {
         const { email, password } = req.body
         const checkUser = await User.findOne({ email }) as User;
 
+        if (!checkUser) {
+            return HTTPResponse.NOT_FOUND(res, {
+                status: StatusCodes.NOT_FOUND,
+                message: "Invalid creditials",
+            });
+        }
+
         if (!bcypt.compareSync(password, checkUser?.password)) {
             return HTTPResponse.BAD_REQUEST(res, {
                 status: StatusCodes.BAD_REQUEST,
